@@ -2,12 +2,12 @@ use crate::{pizza, pizza_store::PizzaStore};
 
 pub use crate::pizza::Pizza;
 
-pub struct NyStylePizzaStore;
+pub struct ChicagoStylePizzaStore;
 
-impl PizzaStore for NyStylePizzaStore {
+impl PizzaStore for ChicagoStylePizzaStore {
     fn create_pizza(&self, pizza_type: pizza::Variety) -> Box<dyn pizza::Pizza> {
         match pizza_type {
-            pizza::Variety::Cheese => Box::<NyStyleCheesePizza>::default(),
+            pizza::Variety::Cheese => Box::<ChicagoStyleCheesePizza>::default(),
             pizza::Variety::Veggie => unimplemented!(),
             pizza::Variety::Clam => unimplemented!(),
             pizza::Variety::Pepperoni => unimplemented!(),
@@ -15,26 +15,26 @@ impl PizzaStore for NyStylePizzaStore {
     }
 }
 
-struct NyStyleCheesePizza {
+struct ChicagoStyleCheesePizza {
     data: pizza::Data,
 }
 
-impl Default for NyStyleCheesePizza {
+impl Default for ChicagoStyleCheesePizza {
     fn default() -> Self {
-        NyStyleCheesePizza {
+        ChicagoStyleCheesePizza {
             data: pizza::Data {
                 variety: pizza::Variety::Cheese,
-                name: "NY Style Sauce and Cheese Pizza",
-                dough: "Thin Crust Dough",
-                sauce: "Marinara Sauce",
-                toppings: vec!["Grated Reggiano Cheese"],
+                name: "Chicago Style Deep Dish Cheese Pizza",
+                dough: "Extra Thick Crust Dough",
+                sauce: "Plum Tmoato Sauce",
+                toppings: vec!["Shredded Mozzarella Cheese"],
                 status: pizza::Status::default(),
             },
         }
     }
 }
 
-impl pizza::Pizza for NyStyleCheesePizza {
+impl pizza::Pizza for ChicagoStyleCheesePizza {
     fn get_data_mut(&mut self) -> &mut pizza::Data {
         &mut self.data
     }
@@ -50,14 +50,14 @@ mod test {
 
     #[test]
     fn create_cheese_pizza() {
-        let pizza_store = NyStylePizzaStore;
+        let pizza_store = ChicagoStylePizzaStore;
         let pizza = pizza_store.create_pizza(pizza::Variety::Cheese);
         assert_eq!(*pizza.get_variety(), pizza::Variety::Cheese);
     }
 
     #[test]
-    fn ny_style_cheese_pizza() {
-        let pizza = NyStyleCheesePizza::default();
+    fn chicago_style_cheese_pizza() {
+        let pizza = ChicagoStyleCheesePizza::default();
         assert_eq!(*pizza.get_variety(), pizza::Variety::Cheese);
     }
 }
