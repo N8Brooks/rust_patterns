@@ -92,7 +92,7 @@ pub mod observer {
         }
 
         fn get_logs(&self) -> &Vec<String> {
-            return &self.logs;
+            &self.logs
         }
     }
 }

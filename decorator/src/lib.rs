@@ -23,7 +23,7 @@ pub mod beverages {
         }
 
         impl Stub {
-            pub fn new() -> Box<dyn Beverage> {
+            pub fn with_box() -> Box<dyn Beverage> {
                 Box::new(Stub {
                     description: "Stub",
                     cost: 0,
@@ -47,13 +47,13 @@ pub mod beverages {
 
             #[test]
             fn get_description() {
-                let beverage = Stub::new();
+                let beverage = Stub::with_box();
                 assert_eq!(beverage.get_description(), "Stub");
             }
 
             #[test]
             fn get_cost() {
-                let beverage = Stub::new();
+                let beverage = Stub::with_box();
                 assert_eq!(beverage.cost(), 0);
             }
         }
@@ -66,7 +66,7 @@ pub mod beverages {
         pub struct Espresso;
 
         impl Espresso {
-            pub fn new() -> Box<dyn Beverage> {
+            pub fn with_box() -> Box<dyn Beverage> {
                 Box::new(Espresso)
             }
         }
@@ -106,7 +106,7 @@ pub mod beverages {
         pub struct HouseBlend;
 
         impl HouseBlend {
-            pub fn new() -> Box<dyn Beverage> {
+            pub fn with_box() -> Box<dyn Beverage> {
                 Box::new(HouseBlend)
             }
         }
@@ -127,13 +127,13 @@ pub mod beverages {
 
             #[test]
             fn get_description() {
-                let beverage = HouseBlend::new();
+                let beverage = HouseBlend::with_box();
                 assert_eq!(beverage.get_description(), "House Blend");
             }
 
             #[test]
             fn cost() {
-                let beverage = HouseBlend::new();
+                let beverage = HouseBlend::with_box();
                 assert_eq!(beverage.cost(), 89);
             }
         }
@@ -146,7 +146,7 @@ pub mod beverages {
         pub struct DarkRoast;
 
         impl DarkRoast {
-            pub fn new() -> Box<dyn Beverage> {
+            pub fn with_box() -> Box<dyn Beverage> {
                 Box::new(DarkRoast)
             }
         }
@@ -167,13 +167,13 @@ pub mod beverages {
 
             #[test]
             fn get_description() {
-                let beverage = DarkRoast::new();
+                let beverage = DarkRoast::with_box();
                 assert_eq!(beverage.get_description(), "Dark Roast");
             }
 
             #[test]
             fn cost() {
-                let beverage = DarkRoast::new();
+                let beverage = DarkRoast::with_box();
                 assert_eq!(beverage.cost(), 99);
             }
         }
@@ -186,7 +186,7 @@ pub mod beverages {
         pub struct Decaf;
 
         impl Decaf {
-            pub fn new() -> Box<dyn Beverage> {
+            pub fn with_box() -> Box<dyn Beverage> {
                 Box::new(Decaf)
             }
         }
@@ -233,7 +233,7 @@ pub mod condiments {
         pub struct Mocha(Box<dyn Beverage>);
 
         impl Mocha {
-            pub fn new(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
+            pub fn with_box(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
                 Box::new(Mocha(beverage))
             }
         }
@@ -255,15 +255,15 @@ pub mod condiments {
 
             #[test]
             fn get_description() {
-                let beverage = Stub::new();
-                let beverage = Mocha::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = Mocha::with_box(beverage);
                 assert_eq!(beverage.get_description(), "Stub, Mocha");
             }
 
             #[test]
             fn cost() {
-                let beverage = Stub::new();
-                let beverage = Mocha::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = Mocha::with_box(beverage);
                 assert_eq!(beverage.cost(), 20);
             }
         }
@@ -276,7 +276,7 @@ pub mod condiments {
         pub struct Soy(Box<dyn Beverage>);
 
         impl Soy {
-            pub fn new(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
+            pub fn with_box(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
                 Box::new(Soy(beverage))
             }
         }
@@ -298,15 +298,15 @@ pub mod condiments {
 
             #[test]
             fn get_description() {
-                let beverage = Stub::new();
-                let beverage = Soy::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = Soy::with_box(beverage);
                 assert_eq!(beverage.get_description(), "Stub, Soy");
             }
 
             #[test]
             fn cost() {
-                let beverage = Stub::new();
-                let beverage = Soy::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = Soy::with_box(beverage);
                 assert_eq!(beverage.cost(), 15);
             }
         }
@@ -319,7 +319,7 @@ pub mod condiments {
         pub struct Whip(Box<dyn Beverage>);
 
         impl Whip {
-            pub fn new(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
+            pub fn with_box(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
                 Box::new(Whip(beverage))
             }
         }
@@ -341,15 +341,15 @@ pub mod condiments {
 
             #[test]
             fn get_description() {
-                let beverage = Stub::new();
-                let beverage = Whip::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = Whip::with_box(beverage);
                 assert_eq!(beverage.get_description(), "Stub, Whip");
             }
 
             #[test]
             fn cost() {
-                let beverage = Stub::new();
-                let beverage = Whip::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = Whip::with_box(beverage);
                 assert_eq!(beverage.cost(), 10);
             }
         }
@@ -362,7 +362,7 @@ pub mod condiments {
         pub struct SteamedMilk(Box<dyn Beverage>);
 
         impl SteamedMilk {
-            pub fn new(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
+            pub fn with_box(beverage: Box<dyn Beverage>) -> Box<dyn Beverage> {
                 Box::new(SteamedMilk(beverage))
             }
         }
@@ -384,15 +384,15 @@ pub mod condiments {
 
             #[test]
             fn get_description() {
-                let beverage = Stub::new();
-                let beverage = SteamedMilk::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = SteamedMilk::with_box(beverage);
                 assert_eq!(beverage.get_description(), "Stub, Steamed Milk");
             }
 
             #[test]
             fn cost() {
-                let beverage = Stub::new();
-                let beverage = SteamedMilk::new(beverage);
+                let beverage = Stub::with_box();
+                let beverage = SteamedMilk::with_box(beverage);
                 assert_eq!(beverage.cost(), 10);
             }
         }
@@ -406,38 +406,38 @@ mod tests {
 
     #[test]
     fn espresso_with_steamed_milk() {
-        let mut beverage = Espresso::new();
-        beverage = SteamedMilk::new(beverage);
+        let mut beverage = Espresso::with_box();
+        beverage = SteamedMilk::with_box(beverage);
         assert_eq!(beverage.get_description(), "Espresso, Steamed Milk");
         assert_eq!(beverage.cost(), 209);
     }
 
     #[test]
     fn double_mocha_dark_roast_with_whip() {
-        let mut beverage = DarkRoast::new();
-        beverage = Mocha::new(beverage);
-        beverage = Mocha::new(beverage);
-        beverage = Whip::new(beverage);
+        let mut beverage = DarkRoast::with_box();
+        beverage = Mocha::with_box(beverage);
+        beverage = Mocha::with_box(beverage);
+        beverage = Whip::with_box(beverage);
         assert_eq!(beverage.get_description(), "Dark Roast, Mocha, Mocha, Whip");
         assert_eq!(beverage.cost(), 149);
     }
 
     #[test]
     fn soy_mocha_house_blend_with_whip() {
-        let mut beverage = HouseBlend::new();
-        beverage = Soy::new(beverage);
-        beverage = Mocha::new(beverage);
-        beverage = Whip::new(beverage);
+        let mut beverage = HouseBlend::with_box();
+        beverage = Soy::with_box(beverage);
+        beverage = Mocha::with_box(beverage);
+        beverage = Whip::with_box(beverage);
         assert_eq!(beverage.get_description(), "House Blend, Soy, Mocha, Whip");
         assert_eq!(beverage.cost(), 134);
     }
 
     #[test]
     fn decaf_with_a_lotta_whip() {
-        let mut beverage = Decaf::new();
-        beverage = Whip::new(beverage);
-        beverage = Whip::new(beverage);
-        beverage = Whip::new(beverage);
+        let mut beverage = Decaf::with_box();
+        beverage = Whip::with_box(beverage);
+        beverage = Whip::with_box(beverage);
+        beverage = Whip::with_box(beverage);
         assert_eq!(beverage.get_description(), "Decaf, Whip, Whip, Whip");
         assert_eq!(beverage.cost(), 135);
     }

@@ -28,7 +28,8 @@ pub mod mock_pizza_store {
 
     use super::*;
 
-    pub struct MockPizzaStore(Box<dyn ingredients::factory::Factory>);
+    #[derive(Default)]
+    pub struct MockPizzaStore(Box<MockIngredientFactory>);
 
     impl Store for MockPizzaStore {
         fn create_pizza(&self, _pizza_type: pizzas::Variety) -> Box<dyn pizzas::Pizza> {
@@ -37,12 +38,6 @@ pub mod mock_pizza_store {
 
         fn get_ingredient_factory(&self) -> &dyn ingredients::factory::Factory {
             self.0.as_ref()
-        }
-    }
-
-    impl Default for MockPizzaStore {
-        fn default() -> Self {
-            MockPizzaStore(Box::<MockIngredientFactory>::default())
         }
     }
 }
