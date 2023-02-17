@@ -4,4 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = ["abstract_factory", "factory_method", "state", "decorator"]
+members = [
+  "strategy",
+  "abstract_factory",
+  "factory_method",
+  "state",
+  "decorator",
+]
