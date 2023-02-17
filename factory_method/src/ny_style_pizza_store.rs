@@ -1,129 +1,55 @@
-use crate::{
-    pizz_store::PizzaStore,
-    pizza::{Pizza, PizzaData, PizzaStatus, PizzaType},
-};
+use crate::{pizza, pizza_store::PizzaStore};
 
 pub struct NyStylePizzaStore;
 
 impl PizzaStore for NyStylePizzaStore {
-    fn create_pizza(&self, pizza_type: PizzaType) -> Box<dyn Pizza> {
+    fn create_pizza(&self, pizza_type: pizza::Variety) -> Box<dyn pizza::Pizza> {
         match pizza_type {
-            PizzaType::Cheese => Box::new(NyStyleCheesePizza::default()),
-            PizzaType::Veggie => Box::new(NyStyleVeggiePizza::default()),
-            PizzaType::Clam => Box::new(NyStyleClamPizza::default()),
-            PizzaType::Pepperoni => Box::new(NyStylePepperoniPizza::default()),
+            pizza::Variety::Cheese => Box::<NyStyleCheesePizza>::default(),
+            pizza::Variety::Veggie => unimplemented!(),
+            pizza::Variety::Clam => unimplemented!(),
+            pizza::Variety::Pepperoni => unimplemented!(),
         }
     }
 }
 
 struct NyStyleCheesePizza {
-    data: PizzaData,
+    data: pizza::Data,
 }
 
 impl Default for NyStyleCheesePizza {
     fn default() -> Self {
         NyStyleCheesePizza {
-            data: PizzaData {
+            data: pizza::Data {
+                variety: pizza::Variety::Cheese,
                 name: "NY Style Sauce and Cheese Pizza",
                 dough: "Thin Crust Dough",
                 sauce: "Marinara Sauce",
                 toppings: vec!["Grated Reggiano Cheese"],
-                status: PizzaStatus::default(),
+                status: pizza::Status::default(),
             },
         }
     }
 }
 
-impl Pizza for NyStyleCheesePizza {
-    fn get_data_mut(&mut self) -> &mut PizzaData {
+impl pizza::Pizza for NyStyleCheesePizza {
+    fn get_data_mut(&mut self) -> &mut pizza::Data {
         &mut self.data
     }
 
-    fn get_data(&self) -> &PizzaData {
+    fn get_data(&self) -> &pizza::Data {
         &self.data
     }
 }
 
-struct NyStylePepperoniPizza {
-    data: PizzaData,
-}
+#[cfg(test)]
+mod test {
+    use super::*;
 
-impl Default for NyStylePepperoniPizza {
-    fn default() -> Self {
-        NyStylePepperoniPizza {
-            data: PizzaData {
-                name: "NY Style Sauce and Cheese Pizza",
-                dough: "Thin Crust Dough",
-                sauce: "Marinara Sauce",
-                toppings: vec!["Grated Reggiano Cheese"],
-                status: PizzaStatus::default(),
-            },
-        }
-    }
-}
-
-impl Pizza for NyStylePepperoniPizza {
-    fn get_data_mut(&mut self) -> &mut PizzaData {
-        &mut self.data
-    }
-
-    fn get_data(&self) -> &PizzaData {
-        &self.data
-    }
-}
-
-struct NyStyleClamPizza {
-    data: PizzaData,
-}
-
-impl Default for NyStyleClamPizza {
-    fn default() -> Self {
-        NyStyleClamPizza {
-            data: PizzaData {
-                name: "NY Style Sauce and Cheese Pizza",
-                dough: "Thin Crust Dough",
-                sauce: "Marinara Sauce",
-                toppings: vec!["Grated Reggiano Cheese"],
-                status: PizzaStatus::default(),
-            },
-        }
-    }
-}
-
-impl Pizza for NyStyleClamPizza {
-    fn get_data_mut(&mut self) -> &mut PizzaData {
-        &mut self.data
-    }
-
-    fn get_data(&self) -> &PizzaData {
-        &self.data
-    }
-}
-
-struct NyStyleVeggiePizza {
-    data: PizzaData,
-}
-
-impl Default for NyStyleVeggiePizza {
-    fn default() -> Self {
-        NyStyleVeggiePizza {
-            data: PizzaData {
-                name: "NY Style Sauce and Cheese Pizza",
-                dough: "Thin Crust Dough",
-                sauce: "Marinara Sauce",
-                toppings: vec!["Grated Reggiano Cheese"],
-                status: PizzaStatus::default(),
-            },
-        }
-    }
-}
-
-impl Pizza for NyStyleVeggiePizza {
-    fn get_data_mut(&mut self) -> &mut PizzaData {
-        &mut self.data
-    }
-
-    fn get_data(&self) -> &PizzaData {
-        &self.data
+    #[test]
+    fn create_cheese_pizza() {
+        let pizza_store = NyStylePizzaStore;
+        let pizza = pizza_store.create_pizza(pizza::Variety::Cheese);
+        assert_eq!(*pizza.get_variety(), pizza::Variety::Cheese);
     }
 }

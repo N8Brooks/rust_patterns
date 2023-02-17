@@ -1,5 +1,5 @@
-#[derive(Debug)]
-pub enum PizzaType {
+#[derive(Debug, PartialEq)]
+pub enum Variety {
     Cheese,
     Veggie,
     Clam,
@@ -7,26 +7,39 @@ pub enum PizzaType {
 }
 
 #[derive(Debug)]
-pub struct PizzaData {
+pub struct Data {
+    pub variety: Variety,
     pub name: &'static str,
     pub dough: &'static str,
     pub sauce: &'static str,
     pub toppings: Vec<&'static str>,
-    pub status: PizzaStatus,
+    pub status: Status,
 }
 
 #[derive(Debug, Default)]
-pub struct PizzaStatus {
+pub struct Status {
     pub is_prepared: bool,
     pub is_baked: bool,
-    pub is_cut: bool,
+    pub cut: Option<Cut>,
     pub is_packaged: bool,
 }
 
-pub trait Pizza {
-    fn get_data_mut(&mut self) -> &mut PizzaData;
+#[derive(Debug, Default, PartialEq)]
+pub enum Cut {
+    #[default]
+    Slice,
+    Square,
+    Spiral,
+}
 
-    fn get_data(&self) -> &PizzaData;
+pub trait Pizza {
+    fn get_data_mut(&mut self) -> &mut Data;
+
+    fn get_data(&self) -> &Data;
+
+    fn get_variety(&self) -> &Variety {
+        &self.get_data().variety
+    }
 
     fn get_name(&self) -> &str {
         self.get_data().name
@@ -41,45 +54,57 @@ pub trait Pizza {
     }
 
     fn cut(&mut self) {
-        self.get_data_mut().status.is_cut = true
+        self.get_data_mut().status.cut = Some(Cut::Slice)
     }
 
     fn package(&mut self) {
         self.get_data_mut().status.is_packaged = true
     }
 
-    fn get_status(&self) -> &PizzaStatus {
+    fn get_status(&self) -> &Status {
         &self.get_data().status
     }
 }
 
-pub struct MockPizza(PizzaData);
+pub mod mock_pizza {
+    use super::*;
 
-impl Default for MockPizza {
-    fn default() -> Self {
-        MockPizza(PizzaData {
-            name: "Mock Pizza",
-            dough: "Mock Dough",
-            sauce: "Mock Sauce",
-            toppings: vec!["Mock Topping"],
-            status: PizzaStatus::default(),
-        })
+    pub struct MockPizza(Data);
+
+    impl Default for MockPizza {
+        fn default() -> Self {
+            MockPizza(Data {
+                variety: Variety::Cheese,
+                name: "Mock Pizza",
+                dough: "Mock Dough",
+                sauce: "Mock Sauce",
+                toppings: vec!["Mock Topping"],
+                status: Status::default(),
+            })
+        }
     }
-}
 
-impl Pizza for MockPizza {
-    fn get_data_mut(&mut self) -> &mut PizzaData {
-        &mut self.0
-    }
+    impl Pizza for MockPizza {
+        fn get_data_mut(&mut self) -> &mut Data {
+            &mut self.0
+        }
 
-    fn get_data(&self) -> &PizzaData {
-        &self.0
+        fn get_data(&self) -> &Data {
+            &self.0
+        }
     }
 }
 
 #[cfg(test)]
 mod test {
+    use super::mock_pizza::MockPizza;
     use super::*;
+
+    #[test]
+    fn get_variety() {
+        let pizza = MockPizza::default();
+        assert_eq!(*pizza.get_variety(), Variety::Cheese);
+    }
 
     #[test]
     fn get_name() {
@@ -106,9 +131,9 @@ mod test {
     #[test]
     fn cut() {
         let mut pizza = MockPizza::default();
-        assert!(!pizza.get_status().is_cut);
+        assert_eq!(pizza.get_status().cut, None);
         pizza.cut();
-        assert!(pizza.get_status().is_cut);
+        assert_eq!(pizza.get_status().cut, Some(Cut::Slice));
     }
 
     #[test]
