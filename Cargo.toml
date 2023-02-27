@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "command",
   "strategy",
   "abstract_factory",
   "factory_method",
